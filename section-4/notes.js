@@ -1,7 +1,14 @@
 const fs = require("fs");
 
-const getNotes = () => {
-  return "Your notes...";
+const getNotes = (title) => {
+  const notes = loadNotes();
+  const note = notes.find((note) => note.title === title);
+  if (note) {
+    console.log(note.title);
+    console.log(note.body);
+  } else {
+    console.log("Note not found");
+  }
 };
 
 const addNote = (title, body) => {
