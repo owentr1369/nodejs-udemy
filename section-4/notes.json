@@ -1,6 +1,42 @@
 [
     {
-        "title": "Title 2",
-        "body": "This is body 2"
+        "title": "Shopping List",
+        "body": "Buy milk, eggs, and bread."
+    },
+    {
+        "title": "Workout Plan",
+        "body": "Monday: Chest, Tuesday: Back, Wednesday: Legs."
+    },
+    {
+        "title": "Book to Read",
+        "body": "Atomic Habits by James Clear."
+    },
+    {
+        "title": "Project Ideas",
+        "body": "Build a note-taking app using Node.js."
+    },
+    {
+        "title": "Birthday Reminder",
+        "body": "Mom's birthday on March 15th."
+    },
+    {
+        "title": "Meeting Notes",
+        "body": "Discussed Q2 goals and deliverables."
+    },
+    {
+        "title": "Recipe",
+        "body": "Pasta: Boil water, add pasta, cook for 10 minutes."
+    },
+    {
+        "title": "Travel Plans",
+        "body": "Visit Paris and Rome in September."
+    },
+    {
+        "title": "Learning Goals",
+        "body": "Complete JavaScript course by end of month."
+    },
+    {
+        "title": "Gift Ideas",
+        "body": "Wireless headphones, coffee mug, book."
     }
 ]

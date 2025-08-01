@@ -50,7 +50,7 @@ yargs.command({
   command: "list",
   describe: "List all notes",
   handler: () => {
-    notes.loadNotes();
+    notes.listNotes();
   },
 });
 
