@@ -10,10 +10,22 @@ const databaseName = "task-manager";
 async function main() {
   const client = await mongoClient.connect(connectionURL);
   const db = client.db(databaseName);
-  db.collection("users").insertOne({
-    name: "Owen Dev",
-    age: 26,
-  });
+
+  const res = await db.collection("users").insertMany([
+    {
+      name: "John Doe",
+      age: 26,
+    },
+    {
+      name: "Jane Doe",
+      age: 25,
+    },
+    {
+      name: "John Smith",
+      age: 27,
+    },
+  ]);
+  console.log(res);
 }
 
 main().catch(console.error);
