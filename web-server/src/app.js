@@ -15,10 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/help", (req, res) => {
-  res.send({
-    name: "Owen",
-    age: 26,
-  });
+  res.render("help");
 });
 
 app.get("/about", (req, res) => {
@@ -26,7 +23,7 @@ app.get("/about", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  res.send("Weather page");
+  res.render("weather");
 });
 
 app.listen(3000, () => {
