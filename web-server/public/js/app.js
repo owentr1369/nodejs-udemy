@@ -12,11 +12,23 @@ if (searchForm) {
 }
 
 const fetchProducts = (searchTerm) => {
+  const productsContainer = document.getElementById("productsContainer");
+  // Show loading animation
+  productsContainer.innerHTML = `
+    <div class="flex justify-center items-center py-12">
+      <svg class="animate-spin h-8 w-8 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+      <span class="text-blue-600 text-lg">Loading...</span>
+    </div>
+  `;
+
   const productApiUrl = `http://localhost:3000/products?search=${searchTerm}`;
-  fetch(productApiUrl).then((res) => {
-    res.json().then((data) => {
-      const productsContainer = document.getElementById("productsContainer");
-      productsContainer.innerHTML = ""; // Clear previous content
+  fetch(productApiUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      productsContainer.innerHTML = ""; // Clear loading animation
 
       if (Array.isArray(data.products) && data.products.length > 0) {
         // Add a grid layout for product cards
@@ -57,6 +69,12 @@ const fetchProducts = (searchTerm) => {
           </div>
         `;
       }
+    })
+    .catch((error) => {
+      productsContainer.innerHTML = `
+        <div class="text-center text-red-500 py-8">
+          <span class="inline-block px-4 py-2 bg-red-100 rounded">Failed to load products.</span>
+        </div>
+      `;
     });
-  });
 };
