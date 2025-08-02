@@ -1,15 +1,15 @@
-const express = require("express");
 const path = require("path");
+const express = require("express");
 const hbs = require("hbs");
 
 const app = express();
 
-// Describe path for express config
+// Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 
-// Setup handlebars engine and view locations
+// Setup handlebars engine and views location
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 hbs.registerPartials(partialsPath);
@@ -17,33 +17,40 @@ hbs.registerPartials(partialsPath);
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
-// Setup routes
-app.get("/", (req, res) => {
+app.get("", (req, res) => {
   res.render("index", {
-    title: "Weather app",
+    title: "Weather",
+    name: "Owen Tran",
+  });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", {
+    title: "About Me",
     name: "Owen Tran",
   });
 });
 
 app.get("/help", (req, res) => {
   res.render("help", {
-    title: "Heading for Help page",
-  });
-});
-
-app.get("/help/*", (req, res) => {
-  res.send("Help article not found");
-});
-
-app.get("/about", (req, res) => {
-  res.render("about", {
-    title: "Heading for About page",
+    helpText: "This is some helpful text.",
+    title: "Help",
+    name: "Owen Tran",
   });
 });
 
 app.get("/weather", (req, res) => {
-  res.render("weather", {
-    title: "Heading for Weather page",
+  res.send({
+    forecast: "It is snowing",
+    location: "Philadelphia",
+  });
+});
+
+app.get("/help/*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    name: "Owen Tran",
+    errorMessage: "Help article not found.",
   });
 });
 
@@ -51,10 +58,10 @@ app.get("*", (req, res) => {
   res.render("404", {
     title: "404",
     name: "Owen Tran",
-    errorMessage: "Page not found",
+    errorMessage: "Page not found.",
   });
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is up on port 3000.");
 });
