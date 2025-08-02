@@ -56,6 +56,9 @@ app.get("/products", (req, res) => {
     if (error) {
       return res.send({ error });
     }
+    if (!req.query.search) {
+      return { products: data };
+    }
     const filteredData = data.filter((product) => {
       return product.name
         .toLowerCase()

@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
     <title>Weather</title>
     <link rel="icon" href="/img/weather.png">
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
-<body>
-    <div class="main-content">
-        {{>header}}
-
-        <p>Use this site to get your weather!</p>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <div class="flex-1 flex flex-col items-center justify-start py-8 px-4">
+        <div class="w-full max-w-2xl bg-white rounded-xl shadow-md p-8 mb-8">
+            {{>header}}
+            <p class="text-gray-700 text-lg mb-6 text-center">Use this site to get your weather!</p>
+            <form id="searchForm" class="flex flex-col sm:flex-row gap-4 items-center justify-center mb-2">
+                <input type="text" name="search" id="search-input" placeholder="Enter keyword" required
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
+                <button type="submit"
+                    class="px-6 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition">
+                    Search
+                </button>
+            </form>
+        </div>
+        <div id="productsContainer" class="w-full max-w-5xl"></div>
     </div>
-
-    {{>footer}}
+    <footer class="w-full mt-auto">
+        {{>footer}}
+    </footer>
+    <script src="/js/app.js"></script>
 </body>
 
 </html>
