@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
+const products = require("../utils/products");
 
 const app = express();
 
@@ -43,6 +44,26 @@ app.get("/weather", (req, res) => {
   res.send({
     forecast: "It is snowing",
     location: "Philadelphia",
+  });
+});
+app.get("/products", (req, res) => {
+  // if (!req.query.search) {
+  //   return res.send({
+  //     error: "You must provide a search term",
+  //   });
+  // }
+  products.get((error, data) => {
+    if (error) {
+      return res.send({ error });
+    }
+    const filteredData = data.filter((product) => {
+      return product.name
+        .toLowerCase()
+        .includes(req.query.search.toLowerCase());
+    });
+    res.send({
+      products: filteredData,
+    });
   });
 });
 
