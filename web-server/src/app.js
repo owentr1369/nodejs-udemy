@@ -4,10 +4,14 @@ const path = require("path");
 const app = express();
 const publicDirectoryPath = path.join(__dirname, "../public");
 
+app.set("view engine", "hbs");
 app.use(express.static(publicDirectoryPath));
 
 app.get("/", (req, res) => {
-  res.send("Hello Express!");
+  res.render("index", {
+    title: "Weather app",
+    name: "Owen Tran",
+  });
 });
 
 app.get("/help", (req, res) => {
@@ -18,7 +22,7 @@ app.get("/help", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.send("About page");
+  res.render("about");
 });
 
 app.get("/weather", (req, res) => {
