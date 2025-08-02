@@ -31,6 +31,10 @@ app.get("/help", (req, res) => {
   });
 });
 
+app.get("/help/*", (req, res) => {
+  res.send("Help article not found");
+});
+
 app.get("/about", (req, res) => {
   res.render("about", {
     title: "Heading for About page",
@@ -40,6 +44,14 @@ app.get("/about", (req, res) => {
 app.get("/weather", (req, res) => {
   res.render("weather", {
     title: "Heading for Weather page",
+  });
+});
+
+app.get("*", (req, res) => {
+  res.render("404", {
+    title: "404",
+    name: "Owen Tran",
+    errorMessage: "Page not found",
   });
 });
 
