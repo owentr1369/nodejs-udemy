@@ -1,7 +1,6 @@
 console.log("Client side js has bean loaded 2");
 
 const searchForm = document.getElementById("searchForm");
-console.log("searchForm", searchForm);
 if (searchForm) {
   searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
