@@ -5,22 +5,22 @@ const { MongoClient, ObjectId } = require("mongodb");
 const connectionURL = "mongodb://127.0.0.1:27017";
 const databaseName = "task-manager";
 
-const id = new ObjectId();
-
-console.log(id);
-console.log(id.getTimestamp());
-
 async function main() {
   const client = await MongoClient.connect(connectionURL);
   const db = client.db(databaseName);
 
-  const res = await db.collection("tasks").insertMany([
-    {
-      description: "Learn Vue.js",
-      completed: false,
-      _id: id,
-    },
-  ]);
+  const latestTask = await db
+    .collection("tasks")
+    .findOne({ _id: new ObjectId("688ec3a00644743e3f345ad6") });
+
+  console.log("latestTask", latestTask);
+
+  const uncompletedTasks = await db
+    .collection("tasks")
+    .find({ completed: false })
+    .toArray();
+
+  console.log("uncompletedTasks", uncompletedTasks);
 }
 
 main().catch(console.error);
