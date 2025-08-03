@@ -13,14 +13,11 @@ async function main() {
     .collection("tasks")
     .findOne({ _id: new ObjectId("688ec3a00644743e3f345ad6") });
 
-  const updatedLatestTask = db
+  const deletedTask = db
     .collection("tasks")
-    .updateOne(
-      { _id: new ObjectId("688ec3a00644743e3f345ad6") },
-      { $set: { description: "Learning Vue.js (Vue 3)" } }
-    );
+    .deleteOne({ _id: new ObjectId("688ec3a00644743e3f345ad6") });
 
-  updatedLatestTask.then((res) => {
+  deletedTask.then((res) => {
     console.log(res);
   });
 }
