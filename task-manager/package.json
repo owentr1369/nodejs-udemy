@@ -7,10 +7,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }

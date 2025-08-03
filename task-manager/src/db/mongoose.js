@@ -14,17 +14,3 @@ const Task = mongoose.model("Task", {
     type: Boolean,
   },
 });
-
-const currentTask = new Task({
-  description: "",
-  completed: false,
-});
-
-currentTask
-  .save()
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => {
-    console.log(err.errors.description);
-  });
