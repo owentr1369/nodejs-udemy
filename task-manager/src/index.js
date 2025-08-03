@@ -6,77 +6,64 @@ const Task = require("./models/task");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// The reason req.body is undefined is because Express does not parse JSON request bodies by default.
-// You need to use express.json() middleware to parse incoming JSON requests.
-// Add this line before your route definitions: app.use(express.json());
-
 app.use(express.json());
 
-app.post("/users", (req, res) => {
-  console.log(req.body);
+app.post("/users", async (req, res) => {
   const user = new User(req.body);
-  user
-    .save()
-    .then(() => {
-      res.send(user);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
-app.get("/users", (req, res) => {
-  User.find({})
-    .then((users) => {
-      res.send(users);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", async (req, res) => {
   const _id = req.params.id;
-  User.findById(_id)
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  try {
+    const user = await User.findById(_id);
+    res.send(user);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
-app.post("/tasks", (req, res) => {
+app.post("/tasks", async (req, res) => {
   const task = new Task(req.body);
-  task
-    .save()
-    .then(() => {
-      res.send(task);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  try {
+    await task.save();
+    res.send(task);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
-app.get("/tasks", (req, res) => {
-  Task.find({})
-    .then((tasks) => {
-      res.send(tasks);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    res.send(tasks);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
-app.get("/tasks/:id", (req, res) => {
+app.get("/tasks/:id", async (req, res) => {
   const _id = req.params.id;
-  Task.findById(_id)
-    .then((task) => {
-      res.send(task);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  try {
+    const task = await Task.findById(_id);
+    res.send(task);
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 app.listen(port, () => {
