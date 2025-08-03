@@ -1,25 +1,24 @@
 const mongoose = require("mongoose");
-const { type } = require("os");
 
 const connectionURL = "mongodb://127.0.0.1:27017/task-manager-api";
 
 mongoose.connect(connectionURL);
 
-const User = mongoose.model("User", {
-  name: {
+const Task = mongoose.model("Task", {
+  description: {
     type: String,
   },
-  age: {
-    type: Number,
+  completed: {
+    type: Boolean,
   },
 });
 
-const currentUser = new User({
-  name: "Owen 1",
-  age: "Jack",
+const currentTask = new Task({
+  description: "Learn Node.js 1",
+  completed: false,
 });
 
-currentUser
+currentTask
   .save()
   .then((res) => {
     console.log(res);
