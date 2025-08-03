@@ -7,6 +7,8 @@ mongoose.connect(connectionURL);
 const Task = mongoose.model("Task", {
   description: {
     type: String,
+    required: true,
+    trim: true,
   },
   completed: {
     type: Boolean,
@@ -14,7 +16,7 @@ const Task = mongoose.model("Task", {
 });
 
 const currentTask = new Task({
-  description: "Learn Node.js 1",
+  description: "",
   completed: false,
 });
 
@@ -24,5 +26,5 @@ currentTask
     console.log(res);
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err.errors.description);
   });
