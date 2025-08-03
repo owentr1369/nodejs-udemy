@@ -13,14 +13,16 @@ async function main() {
     .collection("tasks")
     .findOne({ _id: new ObjectId("688ec3a00644743e3f345ad6") });
 
-  console.log("latestTask", latestTask);
-
-  const uncompletedTasks = await db
+  const updatedLatestTask = db
     .collection("tasks")
-    .find({ completed: false })
-    .toArray();
+    .updateOne(
+      { _id: new ObjectId("688ec3a00644743e3f345ad6") },
+      { $set: { description: "Learning Vue.js (Vue 3)" } }
+    );
 
-  console.log("uncompletedTasks", uncompletedTasks);
+  updatedLatestTask.then((res) => {
+    console.log(res);
+  });
 }
 
 main().catch(console.error);
