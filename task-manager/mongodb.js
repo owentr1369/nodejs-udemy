@@ -1,31 +1,26 @@
 // CRUD create read update delete
 
-const { error } = require("console");
-const mongodb = require("mongodb");
-const mongoClient = mongodb.MongoClient;
+const { MongoClient, ObjectId } = require("mongodb");
 
 const connectionURL = "mongodb://127.0.0.1:27017";
 const databaseName = "task-manager";
 
+const id = new ObjectId();
+
+console.log(id);
+console.log(id.getTimestamp());
+
 async function main() {
-  const client = await mongoClient.connect(connectionURL);
+  const client = await MongoClient.connect(connectionURL);
   const db = client.db(databaseName);
 
-  const res = await db.collection("users").insertMany([
+  const res = await db.collection("tasks").insertMany([
     {
-      name: "John Doe",
-      age: 26,
-    },
-    {
-      name: "Jane Doe",
-      age: 25,
-    },
-    {
-      name: "John Smith",
-      age: 27,
+      description: "Learn Vue.js",
+      completed: false,
+      _id: id,
     },
   ]);
-  console.log(res);
 }
 
 main().catch(console.error);
