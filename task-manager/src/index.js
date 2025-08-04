@@ -1,6 +1,5 @@
 const express = require("express");
 require("./db/mongoose");
-const Task = require("./models/task");
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
 
@@ -15,18 +14,3 @@ app.use(taskRouter);
 app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
-
-const bcrypt = require("bcryptjs");
-
-const myFunction = async () => {
-  const password = "Abcxyz123";
-  const hashedPassword = await bcrypt.hash(password, 8);
-  console.log(hashedPassword);
-
-  const isMatch = await bcrypt.compare("Abcxyz123", hashedPassword);
-  console.log(isMatch);
-};
-
-myFunction();
-
-// andrew
