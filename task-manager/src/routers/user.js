@@ -18,6 +18,20 @@ router.get("/users/me", auth, async (req, res) => {
   res.send(req.user);
 });
 
+router.post("/users/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token;
+    });
+    await req.user.save();
+    res.send({
+      message: "Logged out successfully",
+    });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 router.get("/users", auth, async (req, res) => {
   try {
     const users = await User.find({});
