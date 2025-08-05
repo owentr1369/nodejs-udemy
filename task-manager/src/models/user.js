@@ -47,6 +47,13 @@ userSchema.virtual("tasks", {
   foreignField: "owner",
 });
 
+// Delete all tasks when user is deleted
+userSchema.pre("remove", async function (next) {
+  const user = this;
+  await Task.deleteMany({ owner: user._id });
+  next();
+});
+
 userSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
