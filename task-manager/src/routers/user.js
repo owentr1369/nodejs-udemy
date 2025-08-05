@@ -32,6 +32,18 @@ router.post("/users/logout", auth, async (req, res) => {
   }
 });
 
+router.post("/users/logoutAll", auth, async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send({
+      message: "Logged out from all devices",
+    });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 router.get("/users", auth, async (req, res) => {
   try {
     const users = await User.find({});
