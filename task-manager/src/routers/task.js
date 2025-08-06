@@ -30,6 +30,10 @@ router.get("/tasks", auth, async (req, res) => {
     await req.user.populate({
       path: "tasks",
       match,
+      options: {
+        limit: parseInt(req.query.limit),
+        skip: parseInt(req.query.skip),
+      },
     });
     const tasks = req.user.tasks;
     res.send(tasks);
