@@ -19,6 +19,10 @@ const upload = multer({
   },
 });
 
+const errorMiddleware = (err, req, res, next) => {
+  res.status(500).send({ error: err.message });
+};
+
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
   const token = await user.generateAuthToken();
@@ -111,17 +115,18 @@ router.post(
   auth,
   upload.single("avatar"),
   async (req, res) => {
-    try {
-      req.user.avatar = req.file.path;
-      console.log(req.file.path);
-      await req.user.save();
-      res.send({
-        path: req.file.path,
-        user: req.user,
-      });
-    } catch (error) {
-      res.status(400).send(error);
+    if (!req.file) {
+      return res.status(400).send({ error: "No file uploaded" });
     }
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
+    // Only send user data that includes avatar if you want to confirm avatar is set
+    // But by default, toJSON method in user model removes avatar for security/bandwidth
+    // To explicitly include avatar, you can send it separately:
+    res.send({ user: req.user, avatar: req.user.avatar });
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
   }
 );
 
