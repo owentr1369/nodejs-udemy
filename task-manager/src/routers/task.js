@@ -26,7 +26,6 @@ router.get("/tasks", auth, async (req, res) => {
     match.$or = [{ description: { $regex: req.query.keyword, $options: "i" } }];
   }
   try {
-    // const tasks = await Task.find({ owner: req.user._id });
     await req.user.populate({
       path: "tasks",
       match,
