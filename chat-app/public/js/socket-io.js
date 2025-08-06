@@ -1,4 +1,8 @@
 const socket = io();
-socket.on("connect", () => {
-  console.log("Connected to server");
+socket.on("countUpdated", (count) => {
+  console.log(count);
+});
+
+document.getElementById("increment").addEventListener("click", () => {
+  socket.emit("increment");
 });
