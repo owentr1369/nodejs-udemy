@@ -14,8 +14,9 @@ app.use(express.static(publicDirectoryPath));
 io.on("connection", (socket) => {
   socket.emit("message", "Welcome to the chat");
   socket.broadcast.emit("message", "A new user has joined the chat");
-  socket.on("sendMessage", (message) => {
+  socket.on("sendMessage", (message, callback) => {
     io.emit("message", message);
+    callback();
   });
   socket.on("sendLocation", (position) => {
     io.emit(
