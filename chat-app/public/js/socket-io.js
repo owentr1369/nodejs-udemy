@@ -7,11 +7,22 @@ const $messages = document.querySelector("#messages");
 const $sendLocationButton = document.getElementById("send-location");
 
 const messageTemplate = document.getElementById("message-template").innerHTML;
+const locationMessageTemplate = document.getElementById(
+  "location-message-template"
+).innerHTML;
 
 socket.on("message", (message) => {
   const html = Mustache.render(messageTemplate, {
     message: message,
     createdAt: moment(message.createdAt).format("h:mm a"),
+  });
+  $messages.insertAdjacentHTML("beforeend", html);
+});
+
+socket.on("locationMessage", (url) => {
+  const html = Mustache.render(locationMessageTemplate, {
+    url: url,
+    createdAt: moment().format("h:mm a"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
 });
@@ -34,7 +45,7 @@ $sendLocationButton.addEventListener("click", () => {
   }
   navigator.geolocation.getCurrentPosition((position, error) => {
     socket.emit(
-      "send Location",
+      "locationMessage",
       {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
