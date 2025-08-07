@@ -18,11 +18,12 @@ io.on("connection", (socket) => {
     io.emit("message", message);
     callback();
   });
-  socket.on("sendLocation", (position) => {
+  socket.on("sendLocation", (position, callback) => {
     io.emit(
       "message",
       `https://google.com/maps?q=${position.latitude},${position.longitude}`
     );
+    callback();
   });
   socket.on("disconnect", () => {
     io.emit("message", "A user has left the chat");
