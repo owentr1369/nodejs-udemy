@@ -7,6 +7,12 @@ const {
   generateMessage,
   generateLocationMessage,
 } = require("./utils/messages");
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom,
+} = require("./utils/users");
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -27,14 +33,22 @@ io.on("connection", (socket) => {
       return callback("Username and room are required");
     }
 
-    socket.join(room);
+    const { error, user } = addUser({ id: socket.id, username, room });
+    if (error) {
+      return callback(error);
+    }
+
+    socket.username = user.username;
+    socket.room = user.room;
+
+    socket.join(user.room);
     socket.emit(
       "message",
       generateMessage("You are now connected to the chat")
     );
     socket.broadcast
-      .to(room)
-      .emit("message", generateMessage(`${username} has joined the chat`));
+      .to(user.room)
+      .emit("message", generateMessage(`${user.username} has joined the chat`));
     callback();
   });
 
@@ -47,14 +61,13 @@ io.on("connection", (socket) => {
     callback();
   });
   socket.on("disconnect", () => {
-    // const username = socket.username;
-    // const room = socket.room;
-    // if (username && room) {
-    //   io.to(room).emit(
-    //     "message",
-    //     generateMessage(`${username} has left the chat`)
-    //   );
-    // }
+    const user = removeUser(socket.id);
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        generateMessage(`${user.username} has left the chat`)
+      );
+    }
   });
 });
 
