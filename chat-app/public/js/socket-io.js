@@ -3,8 +3,18 @@ const socket = io();
 const $messageForm = document.getElementById("chat-form");
 const $messageInput = document.getElementById("message");
 const $sendMessageButton = document.getElementById("send");
-// const $messages = document.querySelector("#messages");
+const $messages = document.querySelector("#messages");
 const $sendLocationButton = document.getElementById("send-location");
+
+const messageTemplate = document.getElementById("message-template").innerHTML;
+
+socket.on("message", (message) => {
+  const html = Mustache.render(messageTemplate, {
+    message: message,
+    createdAt: moment(message.createdAt).format("h:mm a"),
+  });
+  $messages.insertAdjacentHTML("beforeend", html);
+});
 
 $messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
