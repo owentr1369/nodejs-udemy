@@ -22,12 +22,7 @@ const publicDirectoryPath = path.join(__dirname, "../public");
 app.use(express.static(publicDirectoryPath));
 
 io.on("connection", (socket) => {
-  socket.emit("message", generateMessage("Welcome to the chat"));
-  socket.broadcast.emit(
-    "message",
-    generateMessage("A new user has joined the chat")
-  );
-
+  socket.emit("message", generateMessage("Admin", "Welcome to the chat"));
   socket.on("join", ({ username, room }, callback) => {
     if (!username || !room) {
       return callback("Username and room are required");
@@ -44,20 +39,32 @@ io.on("connection", (socket) => {
     socket.join(user.room);
     socket.emit(
       "message",
-      generateMessage("You are now connected to the chat")
+      generateMessage("Admin", "You are now connected to the chat")
     );
     socket.broadcast
       .to(user.room)
-      .emit("message", generateMessage(`${user.username} has joined the chat`));
+      .emit(
+        "message",
+        generateMessage("Admin", `${user.username} has joined the chat`)
+      );
     callback();
   });
 
   socket.on("sendMessage", (message, callback) => {
-    io.emit("message", generateMessage(message));
+    const user = getUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("message", generateMessage(user.username, message));
+    }
     callback();
   });
   socket.on("locationMessage", (position, callback) => {
-    io.emit("locationMessage", generateLocationMessage(position));
+    const user = getUser(socket.id);
+    if (user) {
+      io.to(user.room).emit(
+        "locationMessage",
+        generateLocationMessage(position)
+      );
+    }
     callback();
   });
   socket.on("disconnect", () => {
@@ -65,7 +72,7 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit(
         "message",
-        generateMessage(`${user.username} has left the chat`)
+        generateMessage("Admin", `${user.username} has left the chat`)
       );
     }
   });
