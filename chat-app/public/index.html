@@ -22,116 +22,83 @@
         margin-top: 32px;
         color: #3a3a3a;
         letter-spacing: 1px;
+        text-align: center;
       }
-      #messages {
-        width: 100%;
-        max-width: 500px;
-        min-height: 300px;
+      .join-container {
         background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-        margin: 24px 0 16px 0;
-        padding: 16px;
-        overflow-y: auto;
-        flex: 1 1 auto;
-      }
-      #messages > div {
-        margin-bottom: 16px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #f0f0f0;
-      }
-      #messages > div:last-child {
-        border-bottom: none;
-      }
-      #chat-form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        padding: 32px 28px 28px 28px;
+        margin-top: 60px;
+        max-width: 350px;
         width: 100%;
-        max-width: 500px;
-        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
-      #message {
-        flex: 1 1 auto;
-        padding: 10px;
+      .join-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
+        margin-top: 18px;
+      }
+      .join-form input[type="text"] {
+        padding: 12px 14px;
         border: 1px solid #d1d5db;
-        border-radius: 4px;
+        border-radius: 5px;
         font-size: 1rem;
         outline: none;
         transition: border 0.2s;
+        background: #f8fafc;
       }
-      #message:focus {
+      .join-form input[type="text"]:focus {
         border-color: #4f8cff;
+        background: #fff;
       }
-      #send,
-      #send-location {
+      .join-form button {
         background: #4f8cff;
         color: #fff;
         border: none;
-        border-radius: 4px;
-        padding: 10px 18px;
-        font-size: 1rem;
+        border-radius: 5px;
+        padding: 12px 0;
+        font-size: 1.05rem;
+        font-weight: 500;
         cursor: pointer;
         transition: background 0.2s;
+        margin-top: 8px;
+        letter-spacing: 0.5px;
       }
-      #send:hover,
-      #send-location:hover {
+      .join-form button:hover {
         background: #357ae8;
       }
-      #send-location {
-        margin-bottom: 32px;
-        width: 100%;
-        max-width: 500px;
-        display: block;
-      }
-      .message-content {
-        color: #222;
-        margin: 0 0 4px 0;
-        word-break: break-word;
-      }
-      .message-time {
-        color: #888;
-        font-size: 0.85em;
-        margin-left: 2px;
-      }
-      a {
-        color: #4f8cff;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
+      @media (max-width: 400px) {
+        .join-container {
+          padding: 18px 8px 18px 8px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Chat app</h1>
-    <div id="messages"></div>
-    <form id="chat-form">
-      <input
-        type="text"
-        id="message"
-        placeholder="Message"
-        autocomplete="off"
-      />
-      <button id="send">Send</button>
-    </form>
-    <button id="send-location">Share location</button>
+    <div class="join-container">
+      <h1>Join a chat</h1>
+      <form class="join-form" action="./chat.html">
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          required
+          autocomplete="off"
+        />
+        <input
+          type="text"
+          name="room"
+          placeholder="Room"
+          required
+          autocomplete="off"
+        />
+        <button type="submit">Join</button>
+      </form>
+    </div>
   </body>
-  <script id="message-template" type="text/html">
-    <div>
-      <p class="message-content">{{message}}</p>
-      <span class="message-time">{{createdAt}}</span>
-    </div>
-  </script>
-  <script id="location-message-template" type="text/html">
-    <div>
-      <p class="message-content">
-        <a href="{{url}}" target="_blank">Your location</a>
-      </p>
-      <span class="message-time">{{createdAt}}</span>
-    </div>
-  </script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/socket-io.js"></script>
 </html>
