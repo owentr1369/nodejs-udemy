@@ -10,6 +10,7 @@ const messageTemplate = document.getElementById("message-template").innerHTML;
 const locationMessageTemplate = document.getElementById(
   "location-message-template"
 ).innerHTML;
+const sidebarTemplate = document.getElementById("sidebar-template").innerHTML;
 
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -67,4 +68,12 @@ socket.emit("join", { username, room }, (error) => {
     alert(error);
     location.href = "/";
   }
+});
+
+socket.on("roomData", ({ room, users }) => {
+  const html = Mustache.render(sidebarTemplate, {
+    room,
+    users,
+  });
+  document.querySelector("#sidebar").innerHTML = html;
 });
